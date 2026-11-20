@@ -5,4 +5,5 @@ public class AcademyContext(DbContextOptions<AcademyContext> options)
 
 {
     public DbSet<Academy.Models.Direction> Directions { get; set; } = default!;
+    public DbSet<Academy.Models.Student> Student { get; set; } = default!;
 }

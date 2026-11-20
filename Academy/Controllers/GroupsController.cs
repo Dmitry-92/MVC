@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Academy.Models;
 
-public class Academy2Context : Controller
+public class GroupsController : Controller
 {
     private readonly Groups _context;
 
-    public Academy2Context(Groups context)
+    public GroupsController(Groups context)
     {
         _context = context;
     }
