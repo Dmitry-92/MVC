@@ -13,10 +13,19 @@ public class GroupsController : Controller
     }
 
     // GET: GROUPS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index(string sortOrder)    
     {
-        return View(await _context.Group.ToListAsync());
+        ViewData["NameSortParam"] = sortOrder ==  "name_desc" ? "name_asc" : "name_desc";
+        IQueryable<Academy.Models.Group> groups = from g in _context.Group select g;
+
+        switch (sortOrder)
+        {
+            case "name_asc": groups = groups.OrderBy(g => g.group_name); break;
+            case "name_desc": groups = groups.OrderByDescending(g => g.group_name); break;
+        }
+        return View(groups);
     }
+    //return View(await _context.Group.ToListAsync());
 
     // GET: GROUPS/Details/5
     public async Task<IActionResult> Details(int? group_id)

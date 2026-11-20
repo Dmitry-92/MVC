@@ -4,20 +4,30 @@ using Microsoft.EntityFrameworkCore;
 using Academy.Models;
 namespace Academy.Controllers;
 
-public class StudentsController : Controller
+public class Students : Controller
 {
-    private readonly AcademyContext _context;
+    private readonly Students _context;
 
-    public StudentsController(AcademyContext context)
+    public Students(AcademyContext context)
     {
         _context = context;
     }
 
     // GET: STUDENTS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index(string sortOrder)    
     {
-        return View(await _context.Student.ToListAsync());
+        ViewData["NameSortParam"] = sortOrder ==  "name_desc" ? "name_asc" : "name_desc";
+        IQueryable<Academy.Models.Student> groups = from s in _context.Student select s;
+
+        switch (sortOrder)
+        {
+            case "name_asc": students = groups.OrderBy(s => s.last_name); break;
+            case "name_desc": students = groups.OrderByDescending(s => s.last_name); break;
+        }
+        return View(groups);
     }
+    //return View(await _context.Group.ToListAsync());
+    
 
     // GET: STUDENTS/Details/5
     public async Task<IActionResult> Details(int? stud_id)
